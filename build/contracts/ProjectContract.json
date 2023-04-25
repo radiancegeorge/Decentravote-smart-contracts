@@ -1,0 +1,2908 @@
+{
+  "contractName": "ProjectContract",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/DecentraVoteListing.sol\":\"ProjectContract\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/DecentraVoteListing.sol\":{\"keccak256\":\"0x26703efea68ad1638c1c1541576dff8bc43bf1dba9ae1fbdfdc19cf701de3d67\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://aa106ef02bce4b7c69cda1cb2a4550b22ab6b7076b6394bfbe2d6d0a421df2b3\",\"dweb:/ipfs/QmRFWC9C3J4SEsBjCnbKQPTLmZEy6p1egyW5sgheMiRwGh\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8;\n\nabstract contract ProjectContract {\n    address public owner;\n\n    function name() public view virtual returns (string memory);\n\n    function symbol() public view virtual returns (string memory);\n}\n\ncontract DecentraVoteListing {\n    struct Poll {\n        bytes32 title;\n        string description;\n        bytes32[] options;\n    }\n\n    struct Projects {\n        address walletAddress;\n        bool listed;\n        Poll[] polls;\n    }\n\n    //entry point variable for projects\n    mapping(address => Projects) public projects;\n\n    mapping(address => bool) hasProject;\n\n    function isClaimed(address _address) public view returns (bool) {\n        bool claimed = projects[_address].walletAddress != address(0);\n        return claimed;\n    }\n\n    function getProjectPolls(\n        address _address\n    ) public view returns (Poll[] memory) {\n        return projects[_address].polls;\n    }\n\n    modifier isProjectAddressDeployer(address _projectAddress) {\n        require(\n            msg.sender == ProjectContract(_projectAddress).owner(),\n            \"contract address does not belong to this address\"\n        );\n        _;\n    }\n\n    function claimProject(\n        address _registeredAddress,\n        address _projectAddress\n    ) public isProjectAddressDeployer(_projectAddress) {\n        require(\n            !hasProject[_registeredAddress],\n            \"This address has already been linked to a project\"\n        );\n        projects[_projectAddress].walletAddress = _registeredAddress;\n        hasProject[_registeredAddress] = true;\n        //emit an event\n    }\n\n    modifier isNotListedAndHasName(address _projectAddress) {\n        require(\n            !projects[_projectAddress].listed,\n            \"This project has already been listed\"\n        );\n        require(\n            bytes(ProjectContract(_projectAddress).name()).length != 0,\n            \"Contract does not have a name\"\n        );\n        _;\n    }\n\n    function listAndVerifyProject(\n        address _registeredAddress,\n        address _projectAddress\n    ) public isProjectAddressDeployer(_projectAddress) {\n        require(\n            !hasProject[_registeredAddress],\n            \"This address has already been linked to a project\"\n        );\n        hasProject[_registeredAddress] = true;\n        // projects[_projectAddress].listed = true;\n        listProject(_projectAddress);\n        projects[_projectAddress].walletAddress = _registeredAddress;\n    }\n\n    function listProject(\n        address _projectAddress\n    ) public isNotListedAndHasName(_projectAddress) {\n        projects[_projectAddress].listed = true;\n    }\n\n    function checkProjectListing(address _address) public view returns (bool) {\n        return projects[_address].listed;\n    }\n}\n",
+  "sourcePath": "/Users/user/Documents/Projects/ddhub/decentravote-sc/contracts/DecentraVoteListing.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/DecentraVoteListing.sol",
+    "exportedSymbols": {
+      "DecentraVoteListing": [
+        969
+      ],
+      "ProjectContract": [
+        760
+      ]
+    },
+    "id": 970,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 747,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:21:5"
+      },
+      {
+        "abstract": true,
+        "baseContracts": [],
+        "canonicalName": "ProjectContract",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": false,
+        "id": 760,
+        "linearizedBaseContracts": [
+          760
+        ],
+        "name": "ProjectContract",
+        "nameLocation": "73:15:5",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "functionSelector": "8da5cb5b",
+            "id": 749,
+            "mutability": "mutable",
+            "name": "owner",
+            "nameLocation": "110:5:5",
+            "nodeType": "VariableDeclaration",
+            "scope": 760,
+            "src": "95:20:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 748,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "95:7:5",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "functionSelector": "06fdde03",
+            "id": 754,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "name",
+            "nameLocation": "131:4:5",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 750,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "135:2:5"
+            },
+            "returnParameters": {
+              "id": 753,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 752,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 754,
+                  "src": "167:13:5",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 751,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "167:6:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "166:15:5"
+            },
+            "scope": 760,
+            "src": "122:60:5",
+            "stateMutability": "view",
+            "virtual": true,
+            "visibility": "public"
+          },
+          {
+            "functionSelector": "95d89b41",
+            "id": 759,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "symbol",
+            "nameLocation": "197:6:5",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 755,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "203:2:5"
+            },
+            "returnParameters": {
+              "id": 758,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 757,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 759,
+                  "src": "235:13:5",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 756,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "235:6:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "234:15:5"
+            },
+            "scope": 760,
+            "src": "188:62:5",
+            "stateMutability": "view",
+            "virtual": true,
+            "visibility": "public"
+          }
+        ],
+        "scope": 970,
+        "src": "55:197:5",
+        "usedErrors": []
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "DecentraVoteListing",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 969,
+        "linearizedBaseContracts": [
+          969
+        ],
+        "name": "DecentraVoteListing",
+        "nameLocation": "263:19:5",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "DecentraVoteListing.Poll",
+            "id": 768,
+            "members": [
+              {
+                "constant": false,
+                "id": 762,
+                "mutability": "mutable",
+                "name": "title",
+                "nameLocation": "319:5:5",
+                "nodeType": "VariableDeclaration",
+                "scope": 768,
+                "src": "311:13:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 761,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "311:7:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 764,
+                "mutability": "mutable",
+                "name": "description",
+                "nameLocation": "341:11:5",
+                "nodeType": "VariableDeclaration",
+                "scope": 768,
+                "src": "334:18:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 763,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "334:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 767,
+                "mutability": "mutable",
+                "name": "options",
+                "nameLocation": "372:7:5",
+                "nodeType": "VariableDeclaration",
+                "scope": 768,
+                "src": "362:17:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                  "typeString": "bytes32[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 765,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "362:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "id": 766,
+                  "nodeType": "ArrayTypeName",
+                  "src": "362:9:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                    "typeString": "bytes32[]"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Poll",
+            "nameLocation": "296:4:5",
+            "nodeType": "StructDefinition",
+            "scope": 969,
+            "src": "289:97:5",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "DecentraVoteListing.Projects",
+            "id": 777,
+            "members": [
+              {
+                "constant": false,
+                "id": 770,
+                "mutability": "mutable",
+                "name": "walletAddress",
+                "nameLocation": "426:13:5",
+                "nodeType": "VariableDeclaration",
+                "scope": 777,
+                "src": "418:21:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 769,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "418:7:5",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 772,
+                "mutability": "mutable",
+                "name": "listed",
+                "nameLocation": "454:6:5",
+                "nodeType": "VariableDeclaration",
+                "scope": 777,
+                "src": "449:11:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 771,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "449:4:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 776,
+                "mutability": "mutable",
+                "name": "polls",
+                "nameLocation": "477:5:5",
+                "nodeType": "VariableDeclaration",
+                "scope": 777,
+                "src": "470:12:5",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_struct$_Poll_$768_storage_$dyn_storage_ptr",
+                  "typeString": "struct DecentraVoteListing.Poll[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 774,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 773,
+                      "name": "Poll",
+                      "nameLocations": [
+                        "470:4:5"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 768,
+                      "src": "470:4:5"
+                    },
+                    "referencedDeclaration": 768,
+                    "src": "470:4:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Poll_$768_storage_ptr",
+                      "typeString": "struct DecentraVoteListing.Poll"
+                    }
+                  },
+                  "id": 775,
+                  "nodeType": "ArrayTypeName",
+                  "src": "470:6:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_struct$_Poll_$768_storage_$dyn_storage_ptr",
+                    "typeString": "struct DecentraVoteListing.Poll[]"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Projects",
+            "nameLocation": "399:8:5",
+            "nodeType": "StructDefinition",
+            "scope": 969,
+            "src": "392:97:5",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "840e78fd",
+            "id": 782,
+            "mutability": "mutable",
+            "name": "projects",
+            "nameLocation": "571:8:5",
+            "nodeType": "VariableDeclaration",
+            "scope": 969,
+            "src": "535:44:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$777_storage_$",
+              "typeString": "mapping(address => struct DecentraVoteListing.Projects)"
+            },
+            "typeName": {
+              "id": 781,
+              "keyName": "",
+              "keyNameLocation": "-1:-1:-1",
+              "keyType": {
+                "id": 778,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "543:7:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "535:28:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$777_storage_$",
+                "typeString": "mapping(address => struct DecentraVoteListing.Projects)"
+              },
+              "valueName": "",
+              "valueNameLocation": "-1:-1:-1",
+              "valueType": {
+                "id": 780,
+                "nodeType": "UserDefinedTypeName",
+                "pathNode": {
+                  "id": 779,
+                  "name": "Projects",
+                  "nameLocations": [
+                    "554:8:5"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 777,
+                  "src": "554:8:5"
+                },
+                "referencedDeclaration": 777,
+                "src": "554:8:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Projects_$777_storage_ptr",
+                  "typeString": "struct DecentraVoteListing.Projects"
+                }
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 786,
+            "mutability": "mutable",
+            "name": "hasProject",
+            "nameLocation": "611:10:5",
+            "nodeType": "VariableDeclaration",
+            "scope": 969,
+            "src": "586:35:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+              "typeString": "mapping(address => bool)"
+            },
+            "typeName": {
+              "id": 785,
+              "keyName": "",
+              "keyNameLocation": "-1:-1:-1",
+              "keyType": {
+                "id": 783,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "594:7:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "586:24:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+                "typeString": "mapping(address => bool)"
+              },
+              "valueName": "",
+              "valueNameLocation": "-1:-1:-1",
+              "valueType": {
+                "id": 784,
+                "name": "bool",
+                "nodeType": "ElementaryTypeName",
+                "src": "605:4:5",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                }
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 807,
+              "nodeType": "Block",
+              "src": "692:102:5",
+              "statements": [
+                {
+                  "assignments": [
+                    794
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 794,
+                      "mutability": "mutable",
+                      "name": "claimed",
+                      "nameLocation": "707:7:5",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 807,
+                      "src": "702:12:5",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "typeName": {
+                        "id": 793,
+                        "name": "bool",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "702:4:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 804,
+                  "initialValue": {
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 803,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "expression": {
+                        "baseExpression": {
+                          "id": 795,
+                          "name": "projects",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 782,
+                          "src": "717:8:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$777_storage_$",
+                            "typeString": "mapping(address => struct DecentraVoteListing.Projects storage ref)"
+                          }
+                        },
+                        "id": 797,
+                        "indexExpression": {
+                          "id": 796,
+                          "name": "_address",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 788,
+                          "src": "726:8:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "717:18:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Projects_$777_storage",
+                          "typeString": "struct DecentraVoteListing.Projects storage ref"
+                        }
+                      },
+                      "id": 798,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "736:13:5",
+                      "memberName": "walletAddress",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 770,
+                      "src": "717:32:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "!=",
+                    "rightExpression": {
+                      "arguments": [
+                        {
+                          "hexValue": "30",
+                          "id": 801,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "761:1:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          }
+                        ],
+                        "id": 800,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "753:7:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": {
+                          "id": 799,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "753:7:5",
+                          "typeDescriptions": {}
+                        }
+                      },
+                      "id": 802,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "753:10:5",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "717:46:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "702:61:5"
+                },
+                {
+                  "expression": {
+                    "id": 805,
+                    "name": "claimed",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 794,
+                    "src": "780:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 792,
+                  "id": 806,
+                  "nodeType": "Return",
+                  "src": "773:14:5"
+                }
+              ]
+            },
+            "functionSelector": "8cc08025",
+            "id": 808,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isClaimed",
+            "nameLocation": "637:9:5",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 789,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 788,
+                  "mutability": "mutable",
+                  "name": "_address",
+                  "nameLocation": "655:8:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 808,
+                  "src": "647:16:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 787,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "647:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "646:18:5"
+            },
+            "returnParameters": {
+              "id": 792,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 791,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 808,
+                  "src": "686:4:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 790,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "686:4:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "685:6:5"
+            },
+            "scope": 969,
+            "src": "628:166:5",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 822,
+              "nodeType": "Block",
+              "src": "893:48:5",
+              "statements": [
+                {
+                  "expression": {
+                    "expression": {
+                      "baseExpression": {
+                        "id": 817,
+                        "name": "projects",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 782,
+                        "src": "910:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$777_storage_$",
+                          "typeString": "mapping(address => struct DecentraVoteListing.Projects storage ref)"
+                        }
+                      },
+                      "id": 819,
+                      "indexExpression": {
+                        "id": 818,
+                        "name": "_address",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 810,
+                        "src": "919:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "910:18:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Projects_$777_storage",
+                        "typeString": "struct DecentraVoteListing.Projects storage ref"
+                      }
+                    },
+                    "id": 820,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberLocation": "929:5:5",
+                    "memberName": "polls",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 776,
+                    "src": "910:24:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_struct$_Poll_$768_storage_$dyn_storage",
+                      "typeString": "struct DecentraVoteListing.Poll storage ref[] storage ref"
+                    }
+                  },
+                  "functionReturnParameters": 816,
+                  "id": 821,
+                  "nodeType": "Return",
+                  "src": "903:31:5"
+                }
+              ]
+            },
+            "functionSelector": "c5e3c565",
+            "id": 823,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getProjectPolls",
+            "nameLocation": "809:15:5",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 811,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 810,
+                  "mutability": "mutable",
+                  "name": "_address",
+                  "nameLocation": "842:8:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 823,
+                  "src": "834:16:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 809,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "834:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "824:32:5"
+            },
+            "returnParameters": {
+              "id": 816,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 815,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 823,
+                  "src": "878:13:5",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_struct$_Poll_$768_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "struct DecentraVoteListing.Poll[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 813,
+                      "nodeType": "UserDefinedTypeName",
+                      "pathNode": {
+                        "id": 812,
+                        "name": "Poll",
+                        "nameLocations": [
+                          "878:4:5"
+                        ],
+                        "nodeType": "IdentifierPath",
+                        "referencedDeclaration": 768,
+                        "src": "878:4:5"
+                      },
+                      "referencedDeclaration": 768,
+                      "src": "878:4:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Poll_$768_storage_ptr",
+                        "typeString": "struct DecentraVoteListing.Poll"
+                      }
+                    },
+                    "id": 814,
+                    "nodeType": "ArrayTypeName",
+                    "src": "878:6:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_struct$_Poll_$768_storage_$dyn_storage_ptr",
+                      "typeString": "struct DecentraVoteListing.Poll[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "877:15:5"
+            },
+            "scope": 969,
+            "src": "800:141:5",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 840,
+              "nodeType": "Block",
+              "src": "1006:177:5",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 835,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "expression": {
+                            "id": 828,
+                            "name": "msg",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 4294967281,
+                            "src": "1037:3:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_magic_message",
+                              "typeString": "msg"
+                            }
+                          },
+                          "id": 829,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberLocation": "1041:6:5",
+                          "memberName": "sender",
+                          "nodeType": "MemberAccess",
+                          "src": "1037:10:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "expression": {
+                              "arguments": [
+                                {
+                                  "id": 831,
+                                  "name": "_projectAddress",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 825,
+                                  "src": "1067:15:5",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                ],
+                                "id": 830,
+                                "name": "ProjectContract",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 760,
+                                "src": "1051:15:5",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_type$_t_contract$_ProjectContract_$760_$",
+                                  "typeString": "type(contract ProjectContract)"
+                                }
+                              },
+                              "id": 832,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "typeConversion",
+                              "lValueRequested": false,
+                              "nameLocations": [],
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1051:32:5",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_ProjectContract_$760",
+                                "typeString": "contract ProjectContract"
+                              }
+                            },
+                            "id": 833,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberLocation": "1084:5:5",
+                            "memberName": "owner",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 749,
+                            "src": "1051:38:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                              "typeString": "function () view external returns (address)"
+                            }
+                          },
+                          "id": 834,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1051:40:5",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "src": "1037:54:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "hexValue": "636f6e7472616374206164647265737320646f6573206e6f742062656c6f6e6720746f20746869732061646472657373",
+                        "id": 836,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1105:50:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_c16337f1da0d4720ce5b9eb642376914c20dfcb727f7a2023ad59d9c9990d11b",
+                          "typeString": "literal_string \"contract address does not belong to this address\""
+                        },
+                        "value": "contract address does not belong to this address"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_c16337f1da0d4720ce5b9eb642376914c20dfcb727f7a2023ad59d9c9990d11b",
+                          "typeString": "literal_string \"contract address does not belong to this address\""
+                        }
+                      ],
+                      "id": 827,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        4294967278,
+                        4294967278
+                      ],
+                      "referencedDeclaration": 4294967278,
+                      "src": "1016:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 837,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1016:149:5",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 838,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1016:149:5"
+                },
+                {
+                  "id": 839,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "1175:1:5"
+                }
+              ]
+            },
+            "id": 841,
+            "name": "isProjectAddressDeployer",
+            "nameLocation": "956:24:5",
+            "nodeType": "ModifierDefinition",
+            "parameters": {
+              "id": 826,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 825,
+                  "mutability": "mutable",
+                  "name": "_projectAddress",
+                  "nameLocation": "989:15:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 841,
+                  "src": "981:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 824,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "981:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "980:25:5"
+            },
+            "src": "947:236:5",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 872,
+              "nodeType": "Block",
+              "src": "1335:285:5",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 855,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "UnaryOperation",
+                        "operator": "!",
+                        "prefix": true,
+                        "src": "1366:31:5",
+                        "subExpression": {
+                          "baseExpression": {
+                            "id": 852,
+                            "name": "hasProject",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 786,
+                            "src": "1367:10:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+                              "typeString": "mapping(address => bool)"
+                            }
+                          },
+                          "id": 854,
+                          "indexExpression": {
+                            "id": 853,
+                            "name": "_registeredAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 843,
+                            "src": "1378:18:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1367:30:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "hexValue": "5468697320616464726573732068617320616c7265616479206265656e206c696e6b656420746f20612070726f6a656374",
+                        "id": 856,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1411:51:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_fbcc668fe01f870e50bde7342c097383cbfade11274a4cff7643cf7522c054a9",
+                          "typeString": "literal_string \"This address has already been linked to a project\""
+                        },
+                        "value": "This address has already been linked to a project"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_fbcc668fe01f870e50bde7342c097383cbfade11274a4cff7643cf7522c054a9",
+                          "typeString": "literal_string \"This address has already been linked to a project\""
+                        }
+                      ],
+                      "id": 851,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        4294967278,
+                        4294967278
+                      ],
+                      "referencedDeclaration": 4294967278,
+                      "src": "1345:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 857,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1345:127:5",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 858,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1345:127:5"
+                },
+                {
+                  "expression": {
+                    "id": 864,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "expression": {
+                        "baseExpression": {
+                          "id": 859,
+                          "name": "projects",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 782,
+                          "src": "1482:8:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$777_storage_$",
+                            "typeString": "mapping(address => struct DecentraVoteListing.Projects storage ref)"
+                          }
+                        },
+                        "id": 861,
+                        "indexExpression": {
+                          "id": 860,
+                          "name": "_projectAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 845,
+                          "src": "1491:15:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "1482:25:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Projects_$777_storage",
+                          "typeString": "struct DecentraVoteListing.Projects storage ref"
+                        }
+                      },
+                      "id": 862,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberLocation": "1508:13:5",
+                      "memberName": "walletAddress",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 770,
+                      "src": "1482:39:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 863,
+                      "name": "_registeredAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 843,
+                      "src": "1524:18:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1482:60:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 865,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1482:60:5"
+                },
+                {
+                  "expression": {
+                    "id": 870,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "baseExpression": {
+                        "id": 866,
+                        "name": "hasProject",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 786,
+                        "src": "1552:10:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+                          "typeString": "mapping(address => bool)"
+                        }
+                      },
+                      "id": 868,
+                      "indexExpression": {
+                        "id": 867,
+                        "name": "_registeredAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 843,
+                        "src": "1563:18:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "1552:30:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "hexValue": "74727565",
+                      "id": 869,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "bool",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1585:4:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "value": "true"
+                    },
+                    "src": "1552:37:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 871,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1552:37:5"
+                }
+              ]
+            },
+            "functionSelector": "38bf6922",
+            "id": 873,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": [
+                  {
+                    "id": 848,
+                    "name": "_projectAddress",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 845,
+                    "src": "1318:15:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  }
+                ],
+                "id": 849,
+                "kind": "modifierInvocation",
+                "modifierName": {
+                  "id": 847,
+                  "name": "isProjectAddressDeployer",
+                  "nameLocations": [
+                    "1293:24:5"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 841,
+                  "src": "1293:24:5"
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "1293:41:5"
+              }
+            ],
+            "name": "claimProject",
+            "nameLocation": "1198:12:5",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 846,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 843,
+                  "mutability": "mutable",
+                  "name": "_registeredAddress",
+                  "nameLocation": "1228:18:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 873,
+                  "src": "1220:26:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 842,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1220:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 845,
+                  "mutability": "mutable",
+                  "name": "_projectAddress",
+                  "nameLocation": "1264:15:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 873,
+                  "src": "1256:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 844,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1256:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1210:75:5"
+            },
+            "returnParameters": {
+              "id": 850,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1335:0:5"
+            },
+            "scope": 969,
+            "src": "1189:431:5",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 902,
+              "nodeType": "Block",
+              "src": "1682:288:5",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 882,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "UnaryOperation",
+                        "operator": "!",
+                        "prefix": true,
+                        "src": "1713:33:5",
+                        "subExpression": {
+                          "expression": {
+                            "baseExpression": {
+                              "id": 878,
+                              "name": "projects",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 782,
+                              "src": "1714:8:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$777_storage_$",
+                                "typeString": "mapping(address => struct DecentraVoteListing.Projects storage ref)"
+                              }
+                            },
+                            "id": 880,
+                            "indexExpression": {
+                              "id": 879,
+                              "name": "_projectAddress",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 875,
+                              "src": "1723:15:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                              }
+                            },
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "nodeType": "IndexAccess",
+                            "src": "1714:25:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_struct$_Projects_$777_storage",
+                              "typeString": "struct DecentraVoteListing.Projects storage ref"
+                            }
+                          },
+                          "id": 881,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberLocation": "1740:6:5",
+                          "memberName": "listed",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 772,
+                          "src": "1714:32:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "hexValue": "546869732070726f6a6563742068617320616c7265616479206265656e206c6973746564",
+                        "id": 883,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1760:38:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_20cd11d16ce1d2d887154e732013ae88640a6e8ea0c1caf58421d252f9d3f14a",
+                          "typeString": "literal_string \"This project has already been listed\""
+                        },
+                        "value": "This project has already been listed"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_20cd11d16ce1d2d887154e732013ae88640a6e8ea0c1caf58421d252f9d3f14a",
+                          "typeString": "literal_string \"This project has already been listed\""
+                        }
+                      ],
+                      "id": 877,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        4294967278,
+                        4294967278
+                      ],
+                      "referencedDeclaration": 4294967278,
+                      "src": "1692:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 884,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1692:116:5",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 885,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1692:116:5"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 897,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "expression": {
+                            "arguments": [
+                              {
+                                "arguments": [],
+                                "expression": {
+                                  "argumentTypes": [],
+                                  "expression": {
+                                    "arguments": [
+                                      {
+                                        "id": 890,
+                                        "name": "_projectAddress",
+                                        "nodeType": "Identifier",
+                                        "overloadedDeclarations": [],
+                                        "referencedDeclaration": 875,
+                                        "src": "1861:15:5",
+                                        "typeDescriptions": {
+                                          "typeIdentifier": "t_address",
+                                          "typeString": "address"
+                                        }
+                                      }
+                                    ],
+                                    "expression": {
+                                      "argumentTypes": [
+                                        {
+                                          "typeIdentifier": "t_address",
+                                          "typeString": "address"
+                                        }
+                                      ],
+                                      "id": 889,
+                                      "name": "ProjectContract",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 760,
+                                      "src": "1845:15:5",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_type$_t_contract$_ProjectContract_$760_$",
+                                        "typeString": "type(contract ProjectContract)"
+                                      }
+                                    },
+                                    "id": 891,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": false,
+                                    "kind": "typeConversion",
+                                    "lValueRequested": false,
+                                    "nameLocations": [],
+                                    "names": [],
+                                    "nodeType": "FunctionCall",
+                                    "src": "1845:32:5",
+                                    "tryCall": false,
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_contract$_ProjectContract_$760",
+                                      "typeString": "contract ProjectContract"
+                                    }
+                                  },
+                                  "id": 892,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "memberLocation": "1878:4:5",
+                                  "memberName": "name",
+                                  "nodeType": "MemberAccess",
+                                  "referencedDeclaration": 754,
+                                  "src": "1845:37:5",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_function_external_view$__$returns$_t_string_memory_ptr_$",
+                                    "typeString": "function () view external returns (string memory)"
+                                  }
+                                },
+                                "id": 893,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "kind": "functionCall",
+                                "lValueRequested": false,
+                                "nameLocations": [],
+                                "names": [],
+                                "nodeType": "FunctionCall",
+                                "src": "1845:39:5",
+                                "tryCall": false,
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_string_memory_ptr",
+                                  "typeString": "string memory"
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_string_memory_ptr",
+                                  "typeString": "string memory"
+                                }
+                              ],
+                              "id": 888,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "nodeType": "ElementaryTypeNameExpression",
+                              "src": "1839:5:5",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_bytes_storage_ptr_$",
+                                "typeString": "type(bytes storage pointer)"
+                              },
+                              "typeName": {
+                                "id": 887,
+                                "name": "bytes",
+                                "nodeType": "ElementaryTypeName",
+                                "src": "1839:5:5",
+                                "typeDescriptions": {}
+                              }
+                            },
+                            "id": 894,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "nameLocations": [],
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "1839:46:5",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bytes_memory_ptr",
+                              "typeString": "bytes memory"
+                            }
+                          },
+                          "id": 895,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberLocation": "1886:6:5",
+                          "memberName": "length",
+                          "nodeType": "MemberAccess",
+                          "src": "1839:53:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "!=",
+                        "rightExpression": {
+                          "hexValue": "30",
+                          "id": 896,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1896:1:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        },
+                        "src": "1839:58:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "hexValue": "436f6e747261637420646f6573206e6f7420686176652061206e616d65",
+                        "id": 898,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1911:31:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_c999ce0cc67245316f0d4663b29c2906588bfa96c1d5786675dd9de0cadefd30",
+                          "typeString": "literal_string \"Contract does not have a name\""
+                        },
+                        "value": "Contract does not have a name"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_c999ce0cc67245316f0d4663b29c2906588bfa96c1d5786675dd9de0cadefd30",
+                          "typeString": "literal_string \"Contract does not have a name\""
+                        }
+                      ],
+                      "id": 886,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        4294967278,
+                        4294967278
+                      ],
+                      "referencedDeclaration": 4294967278,
+                      "src": "1818:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 899,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1818:134:5",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 900,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1818:134:5"
+                },
+                {
+                  "id": 901,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "1962:1:5"
+                }
+              ]
+            },
+            "id": 903,
+            "name": "isNotListedAndHasName",
+            "nameLocation": "1635:21:5",
+            "nodeType": "ModifierDefinition",
+            "parameters": {
+              "id": 876,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 875,
+                  "mutability": "mutable",
+                  "name": "_projectAddress",
+                  "nameLocation": "1665:15:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 903,
+                  "src": "1657:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 874,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1657:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1656:25:5"
+            },
+            "src": "1626:344:5",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 938,
+              "nodeType": "Block",
+              "src": "2130:351:5",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 917,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "UnaryOperation",
+                        "operator": "!",
+                        "prefix": true,
+                        "src": "2161:31:5",
+                        "subExpression": {
+                          "baseExpression": {
+                            "id": 914,
+                            "name": "hasProject",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 786,
+                            "src": "2162:10:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+                              "typeString": "mapping(address => bool)"
+                            }
+                          },
+                          "id": 916,
+                          "indexExpression": {
+                            "id": 915,
+                            "name": "_registeredAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 905,
+                            "src": "2173:18:5",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "2162:30:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "hexValue": "5468697320616464726573732068617320616c7265616479206265656e206c696e6b656420746f20612070726f6a656374",
+                        "id": 918,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "2206:51:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_fbcc668fe01f870e50bde7342c097383cbfade11274a4cff7643cf7522c054a9",
+                          "typeString": "literal_string \"This address has already been linked to a project\""
+                        },
+                        "value": "This address has already been linked to a project"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_fbcc668fe01f870e50bde7342c097383cbfade11274a4cff7643cf7522c054a9",
+                          "typeString": "literal_string \"This address has already been linked to a project\""
+                        }
+                      ],
+                      "id": 913,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        4294967278,
+                        4294967278
+                      ],
+                      "referencedDeclaration": 4294967278,
+                      "src": "2140:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 919,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2140:127:5",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 920,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2140:127:5"
+                },
+                {
+                  "expression": {
+                    "id": 925,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "baseExpression": {
+                        "id": 921,
+                        "name": "hasProject",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 786,
+                        "src": "2277:10:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+                          "typeString": "mapping(address => bool)"
+                        }
+                      },
+                      "id": 923,
+                      "indexExpression": {
+                        "id": 922,
+                        "name": "_registeredAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 905,
+                        "src": "2288:18:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "2277:30:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "hexValue": "74727565",
+                      "id": 924,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "bool",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "2310:4:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "value": "true"
+                    },
+                    "src": "2277:37:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 926,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2277:37:5"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 928,
+                        "name": "_projectAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 907,
+                        "src": "2388:15:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 927,
+                      "name": "listProject",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 955,
+                      "src": "2376:11:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
+                        "typeString": "function (address)"
+                      }
+                    },
+                    "id": 929,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2376:28:5",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 930,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2376:28:5"
+                },
+                {
+                  "expression": {
+                    "id": 936,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "expression": {
+                        "baseExpression": {
+                          "id": 931,
+                          "name": "projects",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 782,
+                          "src": "2414:8:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$777_storage_$",
+                            "typeString": "mapping(address => struct DecentraVoteListing.Projects storage ref)"
+                          }
+                        },
+                        "id": 933,
+                        "indexExpression": {
+                          "id": 932,
+                          "name": "_projectAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 907,
+                          "src": "2423:15:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "2414:25:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Projects_$777_storage",
+                          "typeString": "struct DecentraVoteListing.Projects storage ref"
+                        }
+                      },
+                      "id": 934,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberLocation": "2440:13:5",
+                      "memberName": "walletAddress",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 770,
+                      "src": "2414:39:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 935,
+                      "name": "_registeredAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 905,
+                      "src": "2456:18:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "2414:60:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 937,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2414:60:5"
+                }
+              ]
+            },
+            "functionSelector": "d689c50b",
+            "id": 939,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": [
+                  {
+                    "id": 910,
+                    "name": "_projectAddress",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 907,
+                    "src": "2113:15:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  }
+                ],
+                "id": 911,
+                "kind": "modifierInvocation",
+                "modifierName": {
+                  "id": 909,
+                  "name": "isProjectAddressDeployer",
+                  "nameLocations": [
+                    "2088:24:5"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 841,
+                  "src": "2088:24:5"
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "2088:41:5"
+              }
+            ],
+            "name": "listAndVerifyProject",
+            "nameLocation": "1985:20:5",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 908,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 905,
+                  "mutability": "mutable",
+                  "name": "_registeredAddress",
+                  "nameLocation": "2023:18:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 939,
+                  "src": "2015:26:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 904,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2015:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 907,
+                  "mutability": "mutable",
+                  "name": "_projectAddress",
+                  "nameLocation": "2059:15:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 939,
+                  "src": "2051:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 906,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2051:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2005:75:5"
+            },
+            "returnParameters": {
+              "id": 912,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2130:0:5"
+            },
+            "scope": 969,
+            "src": "1976:505:5",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 954,
+              "nodeType": "Block",
+              "src": "2593:56:5",
+              "statements": [
+                {
+                  "expression": {
+                    "id": 952,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "expression": {
+                        "baseExpression": {
+                          "id": 947,
+                          "name": "projects",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 782,
+                          "src": "2603:8:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$777_storage_$",
+                            "typeString": "mapping(address => struct DecentraVoteListing.Projects storage ref)"
+                          }
+                        },
+                        "id": 949,
+                        "indexExpression": {
+                          "id": 948,
+                          "name": "_projectAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 941,
+                          "src": "2612:15:5",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "2603:25:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Projects_$777_storage",
+                          "typeString": "struct DecentraVoteListing.Projects storage ref"
+                        }
+                      },
+                      "id": 950,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberLocation": "2629:6:5",
+                      "memberName": "listed",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 772,
+                      "src": "2603:32:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "hexValue": "74727565",
+                      "id": 951,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "bool",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "2638:4:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "value": "true"
+                    },
+                    "src": "2603:39:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 953,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2603:39:5"
+                }
+              ]
+            },
+            "functionSelector": "4fa75687",
+            "id": 955,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": [
+                  {
+                    "id": 944,
+                    "name": "_projectAddress",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 941,
+                    "src": "2576:15:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  }
+                ],
+                "id": 945,
+                "kind": "modifierInvocation",
+                "modifierName": {
+                  "id": 943,
+                  "name": "isNotListedAndHasName",
+                  "nameLocations": [
+                    "2554:21:5"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 903,
+                  "src": "2554:21:5"
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "2554:38:5"
+              }
+            ],
+            "name": "listProject",
+            "nameLocation": "2496:11:5",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 942,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 941,
+                  "mutability": "mutable",
+                  "name": "_projectAddress",
+                  "nameLocation": "2525:15:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 955,
+                  "src": "2517:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 940,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2517:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2507:39:5"
+            },
+            "returnParameters": {
+              "id": 946,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2593:0:5"
+            },
+            "scope": 969,
+            "src": "2487:162:5",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 967,
+              "nodeType": "Block",
+              "src": "2729:49:5",
+              "statements": [
+                {
+                  "expression": {
+                    "expression": {
+                      "baseExpression": {
+                        "id": 962,
+                        "name": "projects",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 782,
+                        "src": "2746:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$777_storage_$",
+                          "typeString": "mapping(address => struct DecentraVoteListing.Projects storage ref)"
+                        }
+                      },
+                      "id": 964,
+                      "indexExpression": {
+                        "id": 963,
+                        "name": "_address",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 957,
+                        "src": "2755:8:5",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "2746:18:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Projects_$777_storage",
+                        "typeString": "struct DecentraVoteListing.Projects storage ref"
+                      }
+                    },
+                    "id": 965,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberLocation": "2765:6:5",
+                    "memberName": "listed",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 772,
+                    "src": "2746:25:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 961,
+                  "id": 966,
+                  "nodeType": "Return",
+                  "src": "2739:32:5"
+                }
+              ]
+            },
+            "functionSelector": "164e7393",
+            "id": 968,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "checkProjectListing",
+            "nameLocation": "2664:19:5",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 958,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 957,
+                  "mutability": "mutable",
+                  "name": "_address",
+                  "nameLocation": "2692:8:5",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 968,
+                  "src": "2684:16:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 956,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2684:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2683:18:5"
+            },
+            "returnParameters": {
+              "id": 961,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 960,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 968,
+                  "src": "2723:4:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 959,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2723:4:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2722:6:5"
+            },
+            "scope": 969,
+            "src": "2655:123:5",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 970,
+        "src": "254:2526:5",
+        "usedErrors": []
+      }
+    ],
+    "src": "32:2749:5"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.19+commit.7dd6d404.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.13",
+  "updatedAt": "2023-04-25T22:52:33.756Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
