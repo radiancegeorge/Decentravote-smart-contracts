@@ -49,8 +49,8 @@ contract("Testing the decentraVote functions", (accounts) => {
 
     console.log(await dvtInstance.balanceOf(accounts[0]));
 
-    console.log(
-      await decentravoteInstance.getProjectPolls(testInstance.address)
-    );
+    // console.log(
+    //   await decentravoteInstance.getProjectPolls(testInstance.address)
+    // );
   });
 });

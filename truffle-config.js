@@ -1,3 +1,4 @@
+require("dotenv").config();
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -107,7 +108,10 @@ module.exports = {
   mocha: {
     // timeout: 100000
   },
-
+  plugins: ["truffle-plugin-verify"],
+  api_keys: {
+    bscscan: process.env.bscscan_key,
+  },
   // Configure your compilers
   compilers: {
     solc: {

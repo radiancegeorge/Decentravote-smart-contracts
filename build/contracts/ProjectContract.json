@@ -41,7 +41,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/DecentraVoteListing.sol\":\"ProjectContract\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/DecentraVoteListing.sol\":{\"keccak256\":\"0xf6592362727cc09bf6f968382c870a4e6ad78670246ef7d1d1981dad45794453\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3c3bf06d15ffb1b791fa284110184094ddb2691331fff827374013a080269875\",\"dweb:/ipfs/QmXE7K2cwuqHDm56B78hL1EwXCJqMs2tj7R15AiXENbKCB\"]},\"project:/contracts/Storage.sol\":{\"keccak256\":\"0x1898eb235cfcf358c4adc1f3130d152a251a4982740571b74b7a9f1b7cd88a2f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2705ba8fd636a5b05e63565a088d9f76d63426f2f268e7ca97f5027a14687531\",\"dweb:/ipfs/QmWwvgLkZyJvawMGaGNxHTtcyqdueKdWCX3LS1fRVLFGPe\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/DecentraVoteListing.sol\":\"ProjectContract\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/DecentraVoteListing.sol\":{\"keccak256\":\"0xf6592362727cc09bf6f968382c870a4e6ad78670246ef7d1d1981dad45794453\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3c3bf06d15ffb1b791fa284110184094ddb2691331fff827374013a080269875\",\"dweb:/ipfs/QmXE7K2cwuqHDm56B78hL1EwXCJqMs2tj7R15AiXENbKCB\"]},\"project:/contracts/Storage.sol\":{\"keccak256\":\"0xf2ff8a3621164ceef7d0cccb6665ec9b4686c7912582693d6ab9ef340668b195\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://eaa1eecf76e27b40cbdf684d8f75b4428bd6e2fef4f939dfe9afe6f89cec704b\",\"dweb:/ipfs/QmQEUjbxrdYPnfazzHQYwU6CLyLbsGZdqn7Uc3iy14TeTb\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -57,11 +57,14 @@
       "DecentraVoteListing": [
         200
       ],
+      "PaymentToken": [
+        412
+      ],
       "ProjectContract": [
         15
       ],
       "Storage": [
-        445
+        449
       ]
     },
     "id": 201,
@@ -85,7 +88,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 201,
-        "sourceUnit": 446,
+        "sourceUnit": 450,
         "src": "54:23:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -260,7 +263,7 @@
                 "310:7:0"
               ],
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 445,
+              "referencedDeclaration": 449,
               "src": "310:7:0"
             },
             "id": 17,
@@ -275,7 +278,7 @@
         "id": 200,
         "linearizedBaseContracts": [
           200,
-          445
+          449
         ],
         "name": "DecentraVoteListing",
         "nameLocation": "287:19:0",
@@ -338,10 +341,10 @@
                           "name": "projects",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 429,
+                          "referencedDeclaration": 434,
                           "src": "413:8:0",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$424_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$429_storage_$",
                             "typeString": "mapping(address => struct Storage.Projects storage ref)"
                           }
                         },
@@ -365,7 +368,7 @@
                         "nodeType": "IndexAccess",
                         "src": "413:18:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Projects_$424_storage",
+                          "typeIdentifier": "t_struct$_Projects_$429_storage",
                           "typeString": "struct Storage.Projects storage ref"
                         }
                       },
@@ -377,7 +380,7 @@
                       "memberLocation": "432:13:0",
                       "memberName": "walletAddress",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 417,
+                      "referencedDeclaration": 422,
                       "src": "413:32:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -573,10 +576,10 @@
                         "name": "projects",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 429,
+                        "referencedDeclaration": 434,
                         "src": "606:8:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$424_storage_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$429_storage_$",
                           "typeString": "mapping(address => struct Storage.Projects storage ref)"
                         }
                       },
@@ -600,7 +603,7 @@
                       "nodeType": "IndexAccess",
                       "src": "606:18:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Projects_$424_storage",
+                        "typeIdentifier": "t_struct$_Projects_$429_storage",
                         "typeString": "struct Storage.Projects storage ref"
                       }
                     },
@@ -612,10 +615,10 @@
                     "memberLocation": "625:5:0",
                     "memberName": "polls",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 423,
+                    "referencedDeclaration": 428,
                     "src": "606:24:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_Poll_$415_storage_$dyn_storage",
+                      "typeIdentifier": "t_array$_t_struct$_Poll_$420_storage_$dyn_storage",
                       "typeString": "struct Storage.Poll storage ref[] storage ref"
                     }
                   },
@@ -685,7 +688,7 @@
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_struct$_Poll_$415_memory_ptr_$dyn_memory_ptr",
+                    "typeIdentifier": "t_array$_t_struct$_Poll_$420_memory_ptr_$dyn_memory_ptr",
                     "typeString": "struct Storage.Poll[]"
                   },
                   "typeName": {
@@ -699,13 +702,13 @@
                           "574:4:0"
                         ],
                         "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 415,
+                        "referencedDeclaration": 420,
                         "src": "574:4:0"
                       },
-                      "referencedDeclaration": 415,
+                      "referencedDeclaration": 420,
                       "src": "574:4:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Poll_$415_storage_ptr",
+                        "typeIdentifier": "t_struct$_Poll_$420_storage_ptr",
                         "typeString": "struct Storage.Poll"
                       }
                     },
@@ -713,7 +716,7 @@
                     "nodeType": "ArrayTypeName",
                     "src": "574:6:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_Poll_$415_storage_$dyn_storage_ptr",
+                      "typeIdentifier": "t_array$_t_struct$_Poll_$420_storage_$dyn_storage_ptr",
                       "typeString": "struct Storage.Poll[]"
                     }
                   },
@@ -1003,7 +1006,7 @@
                             "name": "hasProject",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 433,
+                            "referencedDeclaration": 438,
                             "src": "1063:10:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
@@ -1115,10 +1118,10 @@
                           "name": "projects",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 429,
+                          "referencedDeclaration": 434,
                           "src": "1178:8:0",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$424_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$429_storage_$",
                             "typeString": "mapping(address => struct Storage.Projects storage ref)"
                           }
                         },
@@ -1142,7 +1145,7 @@
                         "nodeType": "IndexAccess",
                         "src": "1178:25:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Projects_$424_storage",
+                          "typeIdentifier": "t_struct$_Projects_$429_storage",
                           "typeString": "struct Storage.Projects storage ref"
                         }
                       },
@@ -1154,7 +1157,7 @@
                       "memberLocation": "1204:13:0",
                       "memberName": "walletAddress",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 417,
+                      "referencedDeclaration": 422,
                       "src": "1178:39:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -1198,7 +1201,7 @@
                         "name": "hasProject",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 433,
+                        "referencedDeclaration": 438,
                         "src": "1248:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
@@ -1399,10 +1402,10 @@
                               "name": "projects",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 429,
+                              "referencedDeclaration": 434,
                               "src": "1410:8:0",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$424_storage_$",
+                                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$429_storage_$",
                                 "typeString": "mapping(address => struct Storage.Projects storage ref)"
                               }
                             },
@@ -1426,7 +1429,7 @@
                             "nodeType": "IndexAccess",
                             "src": "1410:25:0",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_Projects_$424_storage",
+                              "typeIdentifier": "t_struct$_Projects_$429_storage",
                               "typeString": "struct Storage.Projects storage ref"
                             }
                           },
@@ -1438,7 +1441,7 @@
                           "memberLocation": "1436:6:0",
                           "memberName": "listed",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 419,
+                          "referencedDeclaration": 424,
                           "src": "1410:32:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
@@ -1830,7 +1833,7 @@
                             "name": "hasProject",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 433,
+                            "referencedDeclaration": 438,
                             "src": "1857:10:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
@@ -1941,7 +1944,7 @@
                         "name": "hasProject",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 433,
+                        "referencedDeclaration": 438,
                         "src": "1972:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
@@ -2068,10 +2071,10 @@
                           "name": "projects",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 429,
+                          "referencedDeclaration": 434,
                           "src": "2109:8:0",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$424_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$429_storage_$",
                             "typeString": "mapping(address => struct Storage.Projects storage ref)"
                           }
                         },
@@ -2095,7 +2098,7 @@
                         "nodeType": "IndexAccess",
                         "src": "2109:25:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Projects_$424_storage",
+                          "typeIdentifier": "t_struct$_Projects_$429_storage",
                           "typeString": "struct Storage.Projects storage ref"
                         }
                       },
@@ -2107,7 +2110,7 @@
                       "memberLocation": "2135:13:0",
                       "memberName": "walletAddress",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 417,
+                      "referencedDeclaration": 422,
                       "src": "2109:39:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -2274,10 +2277,10 @@
                           "name": "projects",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 429,
+                          "referencedDeclaration": 434,
                           "src": "2298:8:0",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$424_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$429_storage_$",
                             "typeString": "mapping(address => struct Storage.Projects storage ref)"
                           }
                         },
@@ -2301,7 +2304,7 @@
                         "nodeType": "IndexAccess",
                         "src": "2298:25:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Projects_$424_storage",
+                          "typeIdentifier": "t_struct$_Projects_$429_storage",
                           "typeString": "struct Storage.Projects storage ref"
                         }
                       },
@@ -2313,7 +2316,7 @@
                       "memberLocation": "2324:6:0",
                       "memberName": "listed",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 419,
+                      "referencedDeclaration": 424,
                       "src": "2298:32:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -2450,10 +2453,10 @@
                         "name": "projects",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 429,
+                        "referencedDeclaration": 434,
                         "src": "2441:8:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$424_storage_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Projects_$429_storage_$",
                           "typeString": "mapping(address => struct Storage.Projects storage ref)"
                         }
                       },
@@ -2477,7 +2480,7 @@
                       "nodeType": "IndexAccess",
                       "src": "2441:18:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Projects_$424_storage",
+                        "typeIdentifier": "t_struct$_Projects_$429_storage",
                         "typeString": "struct Storage.Projects storage ref"
                       }
                     },
@@ -2489,7 +2492,7 @@
                     "memberLocation": "2460:6:0",
                     "memberName": "listed",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 419,
+                    "referencedDeclaration": 424,
                     "src": "2441:25:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
@@ -2600,7 +2603,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-04-26T12:00:37.698Z",
+  "updatedAt": "2023-04-26T19:49:38.119Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
