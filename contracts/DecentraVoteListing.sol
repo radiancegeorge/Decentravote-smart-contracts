@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8;
+import "./Storage.sol";
 
 abstract contract ProjectContract {
     address public owner;
@@ -9,24 +10,7 @@ abstract contract ProjectContract {
     function symbol() public view virtual returns (string memory);
 }
 
-contract DecentraVoteListing {
-    struct Poll {
-        bytes32 title;
-        string description;
-        bytes32[] options;
-    }
-
-    struct Projects {
-        address walletAddress;
-        bool listed;
-        Poll[] polls;
-    }
-
-    //entry point variable for projects
-    mapping(address => Projects) public projects;
-
-    mapping(address => bool) hasProject;
-
+contract DecentraVoteListing is Storage {
     function isClaimed(address _address) public view returns (bool) {
         bool claimed = projects[_address].walletAddress != address(0);
         return claimed;

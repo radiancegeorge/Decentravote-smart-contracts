@@ -9,7 +9,6 @@ contract DecentraVote is Polls {
         owner = msg.sender;
     }
 
-    address owner;
     modifier isOwner() {
         require(
             msg.sender == owner,

@@ -16,9 +16,6 @@ abstract contract PaymentToken {
 
 contract Polls is DecentraVoteListing {
     //create poll
-    mapping(address => uint256) public rates;
-    uint256 public usdCharge = 5;
-    address wBnb;
 
     //generating token equivalent to dollar
     function calculateTokenFee(
