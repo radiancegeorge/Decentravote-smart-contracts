@@ -71,7 +71,7 @@ contract DecentraVoteListing {
         _;
     }
 
-    function listAndVerifyProject(
+    function listAndClaimProject(
         address _registeredAddress,
         address _projectAddress
     ) public isProjectAddressDeployer(_projectAddress) {

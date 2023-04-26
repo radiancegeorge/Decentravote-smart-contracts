@@ -10,21 +10,24 @@ contract DecentraVote is Polls {
     }
 
     address owner;
-
-    function addTokenCharges(address _address, uint256 _charge) public {
+    modifier isOwner() {
         require(
             msg.sender == owner,
             "you are not permitted to call this function!"
         );
-        charges[_address] = _charge * 10 ** PaymentToken(_address).decimals();
+        _;
     }
 
-    function setBnbCharge(uint256 _charge) public {
-        require(
-            msg.sender == owner,
-            "you are not permitted to call this function!"
-        );
-        bnbCharge = _charge * 10 ** 18;
+    function setTokenRates(address _address, uint256 _value) public isOwner {
+        rates[_address] = _value;
+    }
+
+    function setUsdCharge(uint256 _value) public isOwner {
+        usdCharge = _value;
+    }
+
+    function setWbnb(address _address) public isOwner {
+        wBnb = _address;
     }
 }
 

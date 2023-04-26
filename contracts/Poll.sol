@@ -16,9 +16,20 @@ abstract contract PaymentToken {
 
 contract Polls is DecentraVoteListing {
     //create poll
-    mapping(address => uint256) public charges;
-    uint256 public bnbCharge;
+    mapping(address => uint256) public rates;
+    uint256 public usdCharge = 5;
+    address wBnb;
 
+    //generating token equivalent to dollar
+    function calculateTokenFee(
+        uint256 _tokenRate
+    ) private view returns (uint256) {
+        require(_tokenRate > 0, "The rate cannot be less than 0");
+        uint fee = (1 / _tokenRate) * usdCharge;
+        return fee;
+    }
+
+    // creating polls
     function createPoll(
         address _address,
         bytes32 _title,
@@ -27,16 +38,15 @@ contract Polls is DecentraVoteListing {
         address _projectAddress
     ) public payable {
         require(
-            (_address != address(0) && charges[_address] != 0) ||
-                msg.value == bnbCharge,
+            PaymentToken(_address).transferFrom(
+                msg.sender,
+                address(this),
+                calculateTokenFee(rates[_address])
+            ) || msg.value >= calculateTokenFee(rates[wBnb]),
             "Provide fees before creating polls"
         );
-        PaymentToken token = PaymentToken(_address);
-        require(
-            token.transferFrom(msg.sender, address(this), charges[_address]),
-            "Error Paying fees"
-        );
-        //create poll
+
+        //create poll if fees settled!
         Poll memory newPoll;
         newPoll.options = _options;
         newPoll.description = _description;
