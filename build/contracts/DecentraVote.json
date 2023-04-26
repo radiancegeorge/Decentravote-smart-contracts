@@ -17,7 +17,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -36,7 +37,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -55,7 +57,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -106,7 +109,8 @@
       "name": "createPoll",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -142,7 +146,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -161,7 +166,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -216,7 +222,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -17909,9 +17916,23 @@
     "name": "solc",
     "version": "0.8.19+commit.7dd6d404.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x70566b146cDeCB0d91E3BfDaDF56331a3651b6CE",
+      "transactionHash": "0x92c881c2d9d828e8063688ef5dc3efab59db3a7330410504e7361c271e28c15d"
+    },
+    "1682463043772": {
+      "events": {},
+      "links": {},
+      "address": "0xbE3451235BC4De8fBcFC83E3819A77cf179DE077",
+      "transactionHash": "0x6c71755e9886f797f592d42fc1b0684536fbc98f6abab2fd09dd0bd966d3a48e"
+    }
+  },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-04-25T22:52:33.757Z",
+  "updatedAt": "2023-04-25T23:59:36.744Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},
