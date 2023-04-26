@@ -4,16 +4,6 @@ pragma solidity ^0.8;
 
 import "./DecentraVoteListing.sol";
 
-abstract contract PaymentToken {
-    function transferFrom(
-        address _from,
-        address _to,
-        uint256 _value
-    ) public virtual returns (bool success);
-
-    function decimals() public view virtual returns (uint8);
-}
-
 contract Polls is DecentraVoteListing {
     //create poll
 
@@ -22,7 +12,7 @@ contract Polls is DecentraVoteListing {
         uint256 _tokenRate
     ) private view returns (uint256) {
         require(_tokenRate > 0, "The rate cannot be less than 0");
-        uint fee = (1 / _tokenRate) * usdCharge;
+        uint fee = ((1 * 10 ** 18) / _tokenRate) * usdCharge;
         return fee;
     }
 
@@ -34,6 +24,7 @@ contract Polls is DecentraVoteListing {
         bytes32[] memory _options,
         address _projectAddress
     ) public payable {
+        //attempts to collect some fees
         require(
             PaymentToken(_address).transferFrom(
                 msg.sender,

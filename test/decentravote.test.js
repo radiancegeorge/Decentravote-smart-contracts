@@ -1,12 +1,20 @@
 const decentravote = artifacts.require("DecentraVote");
 const dvt = artifacts.require("DVT");
 const test = artifacts.require("Test");
-
+const web3 = require("web3");
 contract("Testing the decentraVote functions", (accounts) => {
   it("should add dvt as a supported token for payment", async () => {
     const dvtInstance = await dvt.deployed();
     const decentravoteInstance = await decentravote.deployed();
-    await decentravoteInstance.addTokenCharges(dvtInstance.address, 10);
+    await decentravoteInstance.setTokenRates(
+      dvtInstance.address,
+      web3.utils.toWei("0.2")
+    );
+  });
+
+  it("should add dollar charge", async () => {
+    const decentravoteInstance = await decentravote.deployed();
+    await decentravoteInstance.setUsdCharge(web3.utils.toWei("10"));
   });
 
   it("dvt should give decentravote allowance to spend", async () => {
